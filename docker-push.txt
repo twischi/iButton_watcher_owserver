@@ -1,0 +1,24 @@
+docker build -t DEIN_BENUTZERNAME/IMAGE_NAME:TAG .
+
+docker push DEIN_BENUTZERNAME/IMAGE_NAME:TAG
+
+# Log in
+#--------
+docker login
+
+# Prepare for mulit-Architeture
+#------------------------------
+docker buildx create --use
+docker buildx inspect --bootstrap
+
+# Build for 2 Platforms  & push
+#-------------------------------
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t twischi/ibutton_watcher_owserver:latest \
+  -f dockerfile \
+  --push .
+
+# Short-Text for Docker-Hub:
+#---------------------------
+Watches a 1-Wire bus using OWSERVER iButtons and posts their IDs to a Home Assistant webhook.
